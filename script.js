@@ -125,9 +125,19 @@ const startbtn = document.querySelector('#startbtn')
 const mainContainer = document.querySelector('#mainContainer')
 const gameContainer = document.querySelector('#gameContainer')
 startbtn.addEventListener('click', () => {
-    let ramdomCard = Math.floor(Math.random() * 113) + 1;
     const amount = document.querySelectorAll('input')
-    const impostor = Math.floor(Math.random() * amount.length) + 1;
+    for (const input of amount) {
+        if (input.value.trim() === '') {
+            input.classList.add('error')
+            input.focus();
+            return;
+        } else {
+            input.classList.remove('error')
+        }
+    }
+
+    let ramdomCard = Math.floor(Math.random() * clashRoyaleCards.length);
+    const impostor = Math.floor(Math.random() * amount.length);
     const player = []
 
     for (let i = 1; i <= amount.length; i++) {
@@ -137,7 +147,7 @@ startbtn.addEventListener('click', () => {
             card: clashRoyaleCards[ramdomCard]
         })
     }
-    player[impostor].card = 'Impostor'
+    player[impostor].card = 'Impostor';
     console.log(player);
     
     mainContainer.hidden = true;

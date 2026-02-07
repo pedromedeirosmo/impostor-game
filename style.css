@@ -84,6 +84,7 @@ button:active {
   outline: none;
   font-size: clamp(0.9rem, 3.2vw, 1rem);
 }
+.error {border: solid 2px red !important;}
 
 /* Mobile optimization */
 @media (max-width: 420px) {
