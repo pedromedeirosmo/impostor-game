@@ -124,6 +124,30 @@ const clashRoyaleCards = [
 const startbtn = document.querySelector('#startbtn')
 const mainContainer = document.querySelector('#mainContainer')
 const gameContainer = document.querySelector('#gameContainer')
+const addPersonbtn= document.querySelector('#addPersonbtn')
+let morePlayers = 4
+addPersonbtn.addEventListener('click', () => {
+    if (document.querySelectorAll('input').length == 10) {
+        return;
+    }
+
+    const div = document.createElement('div')
+    div.classList.add('player')
+    startbtn.before(div)
+
+    const label = document.createElement('label')
+    label.innerText = `Player ${morePlayers}`
+    label.setAttribute('for', `player${morePlayers}`)
+    div.appendChild(label)
+
+    const input = document.createElement('input')
+    input.type = 'text'
+    input.id = `player${morePlayers}`
+    div.appendChild(input)
+
+    morePlayers++
+})
+
 startbtn.addEventListener('click', () => {
     const amount = document.querySelectorAll('input')
     for (const input of amount) {
