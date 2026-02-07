@@ -124,9 +124,9 @@ const clashRoyaleCards = [
 const startbtn = document.querySelector('#startbtn')
 const mainContainer = document.querySelector('#mainContainer')
 const gameContainer = document.querySelector('#gameContainer')
-const addPersonbtn= document.querySelector('#addPersonbtn')
+const addPlayerbtn= document.querySelector('#addPlayerbtn')
 let morePlayers = 4
-addPersonbtn.addEventListener('click', () => {
+addPlayerbtn.addEventListener('click', () => {
     if (document.querySelectorAll('input').length == 10) {
         return;
     }
