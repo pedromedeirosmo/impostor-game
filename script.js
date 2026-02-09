@@ -121,93 +121,147 @@ const clashRoyaleCards = [
   "Royal Recruits"
 ];
 
-const startbtn = document.querySelector('#startbtn')
-const mainContainer = document.querySelector('#mainContainer')
-const gameContainer = document.querySelector('#gameContainer')
-const addPlayerbtn= document.querySelector('#addPlayerbtn')
-let morePlayers = 4
-addPlayerbtn.addEventListener('click', () => {
-    if (document.querySelectorAll('input').length == 10) {
-        return;
+const startbtn = document.querySelector('#startbtn');
+const mainContainer = document.querySelector('#mainContainer');
+const gameContainer = document.querySelector('#gameContainer');
+const addPlayerbtn = document.querySelector('#addPlayerbtn');
+const nextbtn = document.querySelector('#nextbtn');
+
+let morePlayers = document.querySelectorAll('.player').length + 1;
+
+/* =================================================
+   SINGLE REMOVE BUTTON (always on last player)
+================================================= */
+
+const removebtn = document.createElement('button');
+removebtn.innerText = '-';
+removebtn.classList.add('remove');
+
+// Attaches the remove button to the last player div
+function attachRemoveToLastDiv() {
+    const players = document.querySelectorAll('.player');
+    if (players.length > 3) {
+        players[players.length - 1].appendChild(removebtn);
     }
+}
 
-    const div = document.createElement('div')
-    div.classList.add('player')
-    startbtn.before(div)
+// Removes only the last player
+removebtn.addEventListener('click', () => {
+    const players = document.querySelectorAll('.player');
+    if (players.length > 3) {
+        players[players.length - 1].remove();
+        morePlayers--;
+        attachRemoveToLastDiv();
+    }
+});
 
-    const label = document.createElement('label')
-    label.innerText = `Player ${morePlayers}`
-    label.setAttribute('for', `player${morePlayers}`)
-    div.appendChild(label)
+/* =================================================
+   ADD PLAYER LOGIC
+================================================= */
 
-    const input = document.createElement('input')
-    input.type = 'text'
-    input.id = `player${morePlayers}`
-    div.appendChild(input)
+addPlayerbtn.addEventListener('click', () => {
+    const players = document.querySelectorAll('.player');
+    if (players.length >= 10) return;
 
-    morePlayers++
-})
+    const div = document.createElement('div');
+    div.classList.add('player');
+
+    const label = document.createElement('label');
+    label.innerText = `Player ${morePlayers}`;
+    label.setAttribute('for', `player${morePlayers}`);
+    div.appendChild(label);
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.id = `player${morePlayers}`;
+    div.appendChild(input);
+
+    startbtn.before(div);
+
+    morePlayers++;
+    attachRemoveToLastDiv();
+});
+
+/* =================================================
+   START GAME / VALIDATION
+================================================= */
 
 startbtn.addEventListener('click', () => {
-    const amount = document.querySelectorAll('input')
-    for (const input of amount) {
+    const inputs = document.querySelectorAll('.player input');
+
+    // Validate that all player names are filled
+    for (const input of inputs) {
         if (input.value.trim() === '') {
-            input.classList.add('error')
+            input.classList.add('error');
             input.focus();
             return;
         } else {
-            input.classList.remove('error')
+            input.classList.remove('error');
         }
     }
 
-    let ramdomCard = Math.floor(Math.random() * clashRoyaleCards.length);
-    const impostor = Math.floor(Math.random() * amount.length);
-    const player = []
+    const randomCard = Math.floor(Math.random() * clashRoyaleCards.length);
+    const impostorIndex = Math.floor(Math.random() * inputs.length);
 
-    for (let i = 1; i <= amount.length; i++) {
-        player.push({
-            id: i,
-            name: document.querySelector(`#player${i}`).value,
-            card: clashRoyaleCards[ramdomCard]
-        })
-    }
-    player[impostor].card = 'Impostor';
-    console.log(player);
-    
+    // Build player data
+    const players = [];
+    inputs.forEach((input, index) => {
+        players.push({
+            id: index + 1,
+            name: input.value,
+            card: clashRoyaleCards[randomCard]
+        });
+    });
+
+    players[impostorIndex].card = 'Impostor';
+
+    // Switch to game screen
     mainContainer.hidden = true;
     gameContainer.hidden = false;
 
     const name = document.createElement('h2');
-    name.innerText = `${player[0].name}`
-    const card = document.createElement('p')
-    card.innerText = `${player[0].card}`
-    gameContainer.appendChild(name)
-    gameContainer.appendChild(card)
-    
-    const nextbtn = document.querySelector('#nextbtn')
-    let i = 1
+    const card = document.createElement('p');
+    gameContainer.appendChild(name);
+    gameContainer.appendChild(card);
+
+    let i = 0;
+
+    // Shows current player's card
+    function showPlayer(index) {
+        name.innerText = players[index].name;
+        card.innerText = players[index].card;
+    }
+
+    showPlayer(i);
+    i++;
+
+    /* =================================================
+       GAME FLOW (Next button)
+    ================================================= */
+
     nextbtn.addEventListener('click', () => {
-        if (i == amount.length) {
-            name.innerText = ''
-            card.innerText = ''
-            nextbtn.innerText = 'Show the impostor'
-            i++
-        } else if (i == (amount.length + 1)) {
-            nextbtn.innerText = 'Back'
-            name.innerText = `${player[impostor].name} was the Impostor`
-            i++
-        } else if (i == (amount.length + 2)){
-            window.location.reload()
-        } 
-        else {
-            name.innerText = `${player[i].name}`
-            card.innerText = `${player[i].card}`
-            i++
+
+        if (i < players.length) {
+            showPlayer(i);
+            i++;
         }
-    })
+        else if (i === players.length) {
+            name.innerText = '';
+            card.innerText = '';
+            nextbtn.innerText = 'Show the impostor';
+            i++;
+        }
+        else if (i === players.length + 1) {
+            nextbtn.innerText = 'Restart';
+            name.innerText = `${players[impostorIndex].name} was the Impostor`;
+            i++;
+        }
+        else {
+            window.location.reload();
+        }
 
-    
-    
+    });
+});
 
-    
-})
+// Initial setup in case players already exist
+attachRemoveToLastDiv();
