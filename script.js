@@ -205,9 +205,9 @@ startbtn.addEventListener('click', () => {
 
     // Build player data
     const players = [];
-    inputs.forEach((input, index) => {
+    inputs.forEach((input, indexbebe) => {
         players.push({
-            id: index + 1,
+            id: indexbebe + 1,
             name: input.value,
             card: clashRoyaleCards[randomCard]
         });
@@ -220,20 +220,32 @@ startbtn.addEventListener('click', () => {
     gameContainer.hidden = false;
 
     const name = document.createElement('h2');
+    const revealBtn = document.createElement('button');
+    revealBtn.innerText = 'Reveal';
+    revealBtn.style.width = 'fit-content';
+    revealBtn.style.background = '#ff2e2e'
     const card = document.createElement('p');
+    card.hidden = true;
     gameContainer.appendChild(name);
+    gameContainer.appendChild(revealBtn)
     gameContainer.appendChild(card);
 
-    let i = 0;
+    revealBtn.addEventListener('click', () => {
+        card.hidden = false;
+        revealBtn.hidden = true;
+    })
 
+    let indexbebe = 0;
+    
     // Shows current player's card
-    function showPlayer(index) {
-        name.innerText = players[index].name;
-        card.innerText = players[index].card;
+    function showPlayer(indexbebe) {
+        name.innerText = players[indexbebe].name;
+        card.innerText = players[indexbebe].card;
+        card.hidden = true;
     }
 
-    showPlayer(i);
-    i++;
+    showPlayer(indexbebe);
+    indexbebe++;
 
     /* =================================================
        GAME FLOW (Next button)
@@ -241,25 +253,28 @@ startbtn.addEventListener('click', () => {
 
     nextbtn.addEventListener('click', () => {
 
-        if (i < players.length) {
-            showPlayer(i);
-            i++;
-        }
-        else if (i === players.length) {
-            name.innerText = '';
-            card.innerText = '';
+        if (indexbebe < players.length) {
+            showPlayer(indexbebe);
+            indexbebe++;
+            revealBtn.hidden = false
+        } 
+        else if (indexbebe === players.length) {
+            name.hidden = true
+            card.hidden = true
+            revealBtn.hidden = true
             nextbtn.innerText = 'Show the impostor';
-            i++;
+            indexbebe++;
         }
-        else if (i === players.length + 1) {
+        else if (indexbebe === players.length + 1) {
             nextbtn.innerText = 'Restart';
+            name.hidden = false
             name.innerText = `${players[impostorIndex].name} was the Impostor`;
-            i++;
+            indexbebe++;
         }
         else {
             window.location.reload();
         }
-
+        
     });
 });
 

@@ -40,7 +40,6 @@ h1 {
 button {
   width: 100%;
   padding: clamp(0.75rem, 3vw, 1rem);
-  margin-bottom: 1.5rem;
   border: none;
   border-radius: 0.75rem;
   background-color: #4f7cff;
