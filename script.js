@@ -222,8 +222,7 @@ startbtn.addEventListener('click', () => {
     const name = document.createElement('h2');
     const revealBtn = document.createElement('button');
     revealBtn.innerText = 'Reveal';
-    revealBtn.style.width = 'fit-content';
-    revealBtn.style.background = '#ff2e2e'
+    revealBtn.classList.add('reveal')
     const card = document.createElement('p');
     card.hidden = true;
     gameContainer.appendChild(name);
