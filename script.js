@@ -126,6 +126,7 @@ const mainContainer = document.querySelector('#mainContainer');
 const gameContainer = document.querySelector('#gameContainer');
 const addPlayerbtn = document.querySelector('#addPlayerbtn');
 const nextbtn = document.querySelector('#nextbtn');
+const errorMsg = document.querySelector('.error-message')
 
 let morePlayers = document.querySelectorAll('.player').length + 1;
 
@@ -188,15 +189,17 @@ addPlayerbtn.addEventListener('click', () => {
 
 startbtn.addEventListener('click', () => {
     const inputs = document.querySelectorAll('.player input');
-
+    
     // Validate that all player names are filled
     for (const input of inputs) {
         if (input.value.trim() === '') {
             input.classList.add('error');
             input.focus();
+            errorMsg.classList.remove('hidden');
             return;
         } else {
             input.classList.remove('error');
+            errorMsg.classList.add('hidden');
         }
     }
 
@@ -205,9 +208,9 @@ startbtn.addEventListener('click', () => {
 
     // Build player data
     const players = [];
-    inputs.forEach((input, indexbebe) => {
+    inputs.forEach((input, i) => {
         players.push({
-            id: indexbebe + 1,
+            id: i + 1,
             name: input.value,
             card: clashRoyaleCards[randomCard]
         });
@@ -234,17 +237,17 @@ startbtn.addEventListener('click', () => {
         revealBtn.hidden = true;
     })
 
-    let indexbebe = 0;
+    let i = 0;
     
     // Shows current player's card
-    function showPlayer(indexbebe) {
-        name.innerText = players[indexbebe].name;
-        card.innerText = players[indexbebe].card;
+    function showPlayer(i) {
+        name.innerText = players[i].name;
+        card.innerText = players[i].card;
         card.hidden = true;
     }
 
-    showPlayer(indexbebe);
-    indexbebe++;
+    showPlayer(i);
+    i++;
 
     /* =================================================
        GAME FLOW (Next button)
@@ -252,29 +255,34 @@ startbtn.addEventListener('click', () => {
 
     nextbtn.addEventListener('click', () => {
 
-        if (indexbebe < players.length) {
-            showPlayer(indexbebe);
-            indexbebe++;
+        if (i < players.length) {
+            showPlayer(i);
+            i++;
             revealBtn.hidden = false
         } 
-        else if (indexbebe === players.length) {
+        else if (i === players.length) {
             name.hidden = true
             card.hidden = true
             revealBtn.hidden = true
             nextbtn.innerText = 'Show the impostor';
-            indexbebe++;
+            i++;
         }
-        else if (indexbebe === players.length + 1) {
+        else if (i === players.length + 1) {
             nextbtn.innerText = 'Restart';
             name.hidden = false
             name.innerText = `${players[impostorIndex].name} was the Impostor`;
-            indexbebe++;
+            i++;
         }
         else {
             window.location.reload();
         }
         
     });
+});
+
+// Close error message button
+document.querySelector('.close-btn').addEventListener('click', () => {
+  document.querySelector('.error-message').classList.add('hidden');
 });
 
 // Initial setup in case players already exist
