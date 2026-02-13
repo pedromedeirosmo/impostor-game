@@ -189,19 +189,43 @@ addPlayerbtn.addEventListener('click', () => {
 
 startbtn.addEventListener('click', () => {
     const inputs = document.querySelectorAll('.player input');
-    
+    const errorMsgTxt = document.querySelector('.error-message b');
+
     // Validate that all player names are filled
+    let hasEmpty = false;
     for (const input of inputs) {
         if (input.value.trim() === '') {
             input.classList.add('error');
-            input.focus();
-            errorMsg.classList.remove('hidden');
-            return;
+            hasEmpty = true;
         } else {
             input.classList.remove('error');
-            errorMsg.classList.add('hidden');
         }
     }
+    if (hasEmpty) {
+        errorMsgTxt.innerText = 'Fill in the blank fields';
+        errorMsg.classList.remove('hidden');
+        return;
+    }
+
+    // Check for duplicate names
+    const names = [];
+    let hasDuplicate = false;
+    for (const input of inputs) {
+        const name = input.value.trim().toLowerCase();
+        if (names.includes(name)) {
+            input.classList.add('error');
+            hasDuplicate = true;
+        } else {
+            names.push(name);
+            input.classList.remove('error');
+        }
+    }
+    if (hasDuplicate) {
+        errorMsgTxt.innerText = 'Player names must be unique';
+        errorMsg.classList.remove('hidden');
+        return;
+    }
+    errorMsg.classList.add('hidden')
 
     const randomCard = Math.floor(Math.random() * clashRoyaleCards.length);
     const impostorIndex = Math.floor(Math.random() * inputs.length);
@@ -226,10 +250,10 @@ startbtn.addEventListener('click', () => {
     const revealBtn = document.querySelector('.reveal')
     const card = document.querySelector('#gameContainer p')
 
-    revealBtn.addEventListener('click', () => {
+    revealBtn.onclick = () => {
         card.hidden = false;
         revealBtn.hidden = true;
-    })
+    };
 
     let i = 0;
     
