@@ -222,15 +222,9 @@ startbtn.addEventListener('click', () => {
     mainContainer.hidden = true;
     gameContainer.hidden = false;
 
-    const name = document.createElement('h2');
-    const revealBtn = document.createElement('button');
-    revealBtn.innerText = 'Reveal';
-    revealBtn.classList.add('reveal')
-    const card = document.createElement('p');
-    card.hidden = true;
-    gameContainer.appendChild(name);
-    gameContainer.appendChild(revealBtn)
-    gameContainer.appendChild(card);
+    const name = document.querySelector('#gameContainer h2')
+    const revealBtn = document.querySelector('.reveal')
+    const card = document.querySelector('#gameContainer p')
 
     revealBtn.addEventListener('click', () => {
         card.hidden = false;
@@ -253,8 +247,7 @@ startbtn.addEventListener('click', () => {
        GAME FLOW (Next button)
     ================================================= */
 
-    nextbtn.addEventListener('click', () => {
-
+    nextbtn.onclick = () => { // If using addEventListener here it will create multiple event listeners to nextbtn every time you click the Start button
         if (i < players.length) {
             showPlayer(i);
             i++;
@@ -262,8 +255,8 @@ startbtn.addEventListener('click', () => {
         } 
         else if (i === players.length) {
             name.hidden = true
-            card.hidden = true
             revealBtn.hidden = true
+            card.hidden = true
             nextbtn.innerText = 'Show the impostor';
             i++;
         }
@@ -274,15 +267,18 @@ startbtn.addEventListener('click', () => {
             i++;
         }
         else {
-            window.location.reload();
+            mainContainer.hidden = false;
+            gameContainer.hidden = true;
+            nextbtn.innerText = 'Next';
+            revealBtn.hidden = false;
+            i = 0
         }
-        
-    });
+    };
 });
 
 // Close error message button
 document.querySelector('.close-btn').addEventListener('click', () => {
-  document.querySelector('.error-message').classList.add('hidden');
+    document.querySelector('.error-message').classList.add('hidden');
 });
 
 // Initial setup in case players already exist
