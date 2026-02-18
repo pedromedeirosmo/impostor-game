@@ -68,9 +68,9 @@ const clashRoyaleCards = [
     "X-Bow",
 
     // Rare
+    "Barbarian Hut",
     "Battle Healer",
     "Battle Ram",
-    "Barbarian Hut",
     "Bomb Tower",
     "Dart Goblin",
     "Earthquake",
@@ -111,11 +111,12 @@ const clashRoyaleCards = [
     "Elite Barbarians",
     "Fire Spirit",
     "Firecracker",
+    "Giant Snowball",
     "Goblin Gang",
     "Goblins",
     "Ice Spirit",
     "Knight",
-    "Minion horde",
+    "Minion Horde",
     "Minions",
     "Mortar",
     "Rascals",
@@ -125,7 +126,6 @@ const clashRoyaleCards = [
     "Skeleton Barrel",
     "Skeleton Dragons",
     "Skeletons",
-    "Snowball",
     "Spear Goblins",
     "Tesla",
     "Zap"
@@ -235,7 +235,7 @@ startbtn.addEventListener('click', () => {
         errorMsg.classList.remove('hidden');
         return;
     }
-    errorMsg.classList.add('hidden')
+    errorMsg.classList.add('hidden');
 
     const randomCard = Math.floor(Math.random() * clashRoyaleCards.length);
     const impostorIndex = Math.floor(Math.random() * inputs.length);
@@ -256,13 +256,17 @@ startbtn.addEventListener('click', () => {
     mainContainer.hidden = true;
     gameContainer.hidden = false;
 
-    const name = document.querySelector('#gameContainer h2')
-    const revealBtn = document.querySelector('.reveal')
-    const card = document.querySelector('#gameContainer p')
+    const name = document.querySelector('#gameContainer h2');
+    const revealBtn = document.querySelector('.reveal');
+    const card = document.querySelector('#gameContainer p');
+    const img = document.querySelector('#gameContainer img');
 
     revealBtn.onclick = () => {
         card.hidden = false;
         revealBtn.hidden = true;
+        if (players[i - 1].card !== 'Impostor') {
+            img.hidden = false;
+        }
     };
 
     let i = 0;
@@ -272,6 +276,16 @@ startbtn.addEventListener('click', () => {
         name.innerText = players[i].name;
         card.innerText = players[i].card;
         card.hidden = true;
+        img.hidden = true;
+
+        if (players[i].card !== 'Impostor') {
+            let fileName = (players[i].card).toLowerCase().replaceAll(' ', '-').replaceAll('.', '');
+            img.src = `https://cdns3.royaleapi.com/cdn-cgi/image/w=150,h=180,format=auto/static/img/cards/v9-f09d5c9d/${fileName}.png`
+        } else {
+            img.src = '';
+            img.hidden = true;
+        }
+        
     }
 
     showPlayer(i);
@@ -285,18 +299,19 @@ startbtn.addEventListener('click', () => {
         if (i < players.length) {
             showPlayer(i);
             i++;
-            revealBtn.hidden = false
+            revealBtn.hidden = false;
         } 
         else if (i === players.length) {
-            name.hidden = true
-            revealBtn.hidden = true
-            card.hidden = true
+            name.hidden = true;
+            revealBtn.hidden = true;
+            card.hidden = true;
+            img.hidden = true;
             nextbtn.innerText = 'Show the impostor';
             i++;
         }
         else if (i === players.length + 1) {
             nextbtn.innerText = 'Restart';
-            name.hidden = false
+            name.hidden = false;
             name.innerText = `${players[impostorIndex].name} was the Impostor`;
             i++;
         }
