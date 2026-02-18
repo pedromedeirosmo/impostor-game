@@ -40,8 +40,8 @@ const clashRoyaleCards = [
     "Cannon Cart",
     "Clone",
     "Dark Prince",
-    "Electric Giant",
     "Electro Dragon",
+    "Electro Giant",
     "Executioner",
     "Freeze",
     "Giant Skeleton",
@@ -280,10 +280,12 @@ startbtn.addEventListener('click', () => {
 
         if (players[i].card !== 'Impostor') {
             let fileName = (players[i].card).toLowerCase().replaceAll(' ', '-').replaceAll('.', '');
-            img.src = `https://cdns3.royaleapi.com/cdn-cgi/image/w=150,h=180,format=auto/static/img/cards/v9-f09d5c9d/${fileName}.png`
+            img.src = `https://cdn.royaleapi.com/static/img/cards-150/${fileName}.png`;
+            card.style.color = '#fff';
         } else {
             img.src = '';
             img.hidden = true;
+            card.style.color = 'darkred';
         }
         
     }
@@ -328,6 +330,45 @@ startbtn.addEventListener('click', () => {
 // Close error message button
 document.querySelector('.close-btn').addEventListener('click', () => {
     document.querySelector('.error-message').classList.add('hidden');
+    const inputs = document.querySelectorAll('.player input');
+    inputs.forEach(input => input.classList.remove('error'));
+
+    const errorMsgTxt = document.querySelector('.error-message b');
+
+    // Validate that all player names are filled
+    let hasEmpty = false;
+    for (const input of inputs) {
+        if (input.value.trim() === '') {
+            input.classList.add('error');
+            hasEmpty = true;
+        }
+    }   
+    if (hasEmpty) {
+        if (errorMsgTxt) errorMsgTxt.innerText = 'Fill in the blank fields';
+        return;
+    }
+
+    // Check for duplicate names
+    const counts = {};
+    inputs.forEach(input => {
+        const name = input.value.trim().toLowerCase();
+        counts[name] = (counts[name] || 0) + 1;
+    });
+
+    let hasDuplicate = false;
+
+    inputs.forEach(input => {
+        const name = input.value.trim().toLowerCase();
+        if (counts[name] > 1) {
+            input.classList.add('error');
+            hasDuplicate = true;
+        }
+    });
+
+    if (hasDuplicate) {
+        if (errorMsgTxt) errorMsgTxt.innerText = 'Player names must be unique';
+        return;
+    }
 });
 
 // Initial setup in case players already exist
