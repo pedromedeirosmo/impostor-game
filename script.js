@@ -196,12 +196,30 @@ addPlayerbtn.addEventListener('click', () => {
 /* =================================================
    START GAME / VALIDATION
 ================================================= */
-
-startbtn.addEventListener('click', () => {
-    const inputs = document.querySelectorAll('.player input');
-    const errorMsgTxt = document.querySelector('.error-message b');
-
-    // Validate that all player names are filled
+function checkForDuplicates(inputs) {
+    const counts = {};
+    
+    // Count occurrences (skip empty strings)
+    inputs.forEach(input => {
+        const name = input.value.trim().toLowerCase();
+        if (name !== '') {  // Only count non-empty names
+            counts[name] = (counts[name] || 0) + 1;
+        }
+    });
+    
+    // Mark duplicates
+    let hasDuplicate = false;
+    inputs.forEach(input => {
+        const name = input.value.trim().toLowerCase();
+        if (name !== '' && counts[name] > 1) {  // Only check non-empty
+            input.classList.add('error');
+            hasDuplicate = true;
+        }
+    });
+    
+    return hasDuplicate;
+}
+function checkForEmpty(inputs) {
     let hasEmpty = false;
     for (const input of inputs) {
         if (input.value.trim() === '') {
@@ -211,6 +229,16 @@ startbtn.addEventListener('click', () => {
             input.classList.remove('error');
         }
     }
+    
+    return hasEmpty;
+}
+
+startbtn.addEventListener('click', () => {
+    const inputs = document.querySelectorAll('.player input');
+    const errorMsgTxt = document.querySelector('.error-message b');
+
+    // Validate that all player names are filled
+    const hasEmpty = checkForEmpty(inputs);
     if (hasEmpty) {
         errorMsgTxt.innerText = 'Fill in the blank fields';
         errorMsg.classList.remove('hidden');
@@ -218,18 +246,7 @@ startbtn.addEventListener('click', () => {
     }
 
     // Check for duplicate names
-    const names = [];
-    let hasDuplicate = false;
-    for (const input of inputs) {
-        const name = input.value.trim().toLowerCase();
-        if (names.includes(name)) {
-            input.classList.add('error');
-            hasDuplicate = true;
-        } else {
-            names.push(name);
-            input.classList.remove('error');
-        }
-    }
+    const hasDuplicate = checkForDuplicates(inputs);
     if (hasDuplicate) {
         errorMsgTxt.innerText = 'Player names must be unique';
         errorMsg.classList.remove('hidden');
@@ -329,46 +346,15 @@ startbtn.addEventListener('click', () => {
 
 // Close error message button
 document.querySelector('.close-btn').addEventListener('click', () => {
-    document.querySelector('.error-message').classList.add('hidden');
+    errorMsg.classList.add('hidden');
     const inputs = document.querySelectorAll('.player input');
     inputs.forEach(input => input.classList.remove('error'));
-
-    const errorMsgTxt = document.querySelector('.error-message b');
-
-    // Validate that all player names are filled
-    let hasEmpty = false;
-    for (const input of inputs) {
-        if (input.value.trim() === '') {
-            input.classList.add('error');
-            hasEmpty = true;
-        }
-    }   
-    if (hasEmpty) {
-        if (errorMsgTxt) errorMsgTxt.innerText = 'Fill in the blank fields';
-        return;
-    }
-
-    // Check for duplicate names
-    const counts = {};
-    inputs.forEach(input => {
-        const name = input.value.trim().toLowerCase();
-        counts[name] = (counts[name] || 0) + 1;
-    });
-
-    let hasDuplicate = false;
-
-    inputs.forEach(input => {
-        const name = input.value.trim().toLowerCase();
-        if (counts[name] > 1) {
-            input.classList.add('error');
-            hasDuplicate = true;
-        }
-    });
-
-    if (hasDuplicate) {
-        if (errorMsgTxt) errorMsgTxt.innerText = 'Player names must be unique';
-        return;
-    }
+    
+    // Check empty
+    checkForEmpty(inputs);
+    
+    // Check duplicates
+    checkForDuplicates(inputs);
 });
 
 // Initial setup in case players already exist
