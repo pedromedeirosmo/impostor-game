@@ -254,6 +254,8 @@ startbtn.addEventListener('click', () => {
     }
     errorMsg.classList.add('hidden');
 
+    nextbtn.disabled = true;
+
     const randomCard = Math.floor(Math.random() * clashRoyaleCards.length);
     const impostorIndex = Math.floor(Math.random() * inputs.length);
 
@@ -284,6 +286,7 @@ startbtn.addEventListener('click', () => {
         if (players[i - 1].card !== 'Impostor') {
             img.hidden = false;
         }
+        nextbtn.disabled = false;
     };
 
     let i = 0;
@@ -319,6 +322,7 @@ startbtn.addEventListener('click', () => {
             showPlayer(i);
             i++;
             revealBtn.hidden = false;
+            nextbtn.disabled = true;
         } 
         else if (i === players.length) {
             name.hidden = true;
