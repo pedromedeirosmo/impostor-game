@@ -11,16 +11,6 @@
 ![Players](https://img.shields.io/badge/Players-3--10-blue)
 ![Cards](https://img.shields.io/badge/Cards-121-green)
 
-## 📖 Table of Contents
-
-- [About](#about)
-- [How to Play](#how-to-play)
-- [Features](#features)
-- [Technologies](#technologies)
-- [Project Structure](#project-structure)
-- [Screenshots](#screenshots)
-- [License](#license)
-
 ## 🎯 About
 
 This is a browser-based social deduction game where players try to identify the impostor among them. Each player receives a Clash Royale card - everyone gets the same card except one player who becomes the "Impostor."
@@ -111,12 +101,6 @@ The game uses a dark crimson shadow theme:
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Clash Royale** by Supercell - For the amazing game and card designs
-- **RoyaleAPI** - For providing card image CDN
-- **Among Us** - For the original impostor game concept inspiration
 
 ## 📧 Contact
 
