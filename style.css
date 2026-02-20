@@ -177,6 +177,74 @@ button:disabled {
 }
 .close-btn:hover {color: #D95555; background: none;}
 
+/* Options */
+/* .option {
+  display: flex;
+  align-items: center;
+  border: 1px solid #D4C5C7;
+  border-radius: 8px;
+  background-color: #2D1F1F;
+  padding: 16px;
+  gap: 10px;
+  margin-bottom: 0.8rem;
+}
+.option input#twoImpostors {
+  width: 17.5px;
+  height: 17.5px;
+}
+.option p {
+  margin: 0; 
+  font-size: clamp(0.85rem, 3vw, 1rem);
+} */
+.impostor-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #2D1F1F;
+  border-radius: 0.75rem;
+  border: 1px solid #3D2A2A;
+}
+
+.impostor-checkbox label {
+  color: #D4C5C7;
+  font-size: 1rem;
+  cursor: pointer;
+  user-select: none;
+  margin: 0;
+}
+
+.impostor-checkbox .min-players {
+  color: #A8A0A1;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.impostor-checkbox input[type="checkbox"] {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #8B3A3A;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  background-color: #1A1314;
+  transition: all 0.2s;
+}
+.impostor-checkbox input[type="checkbox"]:checked {background-color: #8B3A3A;}
+.impostor-checkbox input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+}
+.impostor-checkbox input[type="checkbox"]:hover {border-color: #A34848;}
+
 /* Footer */
 footer {
   width: 100%;
@@ -185,7 +253,7 @@ footer {
   flex-shrink: 0; 
 }
 footer p {
-  font-size: 1.4em;
+  font-size: clamp(1.2rem, 3vw, 1.4rem);
   margin: 0.5rem 0;
 }
 footer div {
@@ -228,4 +296,14 @@ footer svg:hover {fill: #A34848;}
   }
   .title-primary {font-size: 2.5rem;}
   .title-secondary {font-size: 2rem;}
+  .impostor-checkbox label {font-size: 0.95rem;}
+  .impostor-checkbox .min-players {font-size: 0.8rem;}
+}
+@media (max-width: 340px) {
+  .impostor-checkbox label {
+    display: flex;
+    flex-direction: column;  /* ✅ Stack text vertically */
+    gap: 0.25rem;
+  }
+  .impostor-checkbox .min-players {font-size: 0.75rem;}
 }
