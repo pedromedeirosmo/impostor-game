@@ -41,13 +41,30 @@ body {
 }
 
 /* Title */
-h1 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: clamp(1.5rem, 5vw, 2.2rem); 
-  color: #F0E5E7 ;
-}
 h2 {color: #D4C5C7;}
+
+.main-title {
+  text-align: center;
+  margin: 1.5rem 0;
+  line-height: 1.2;
+}
+.main-title span {
+  font-family: 'You Blockhead', sans-serif;
+}
+
+.title-primary {
+  display: block;
+  font-size: 3.5rem;
+  color: #8B3A3A;  /* Your text-primary color */
+}
+
+.title-secondary {
+  display: block;
+  font-size: 3rem;
+  color: #D4C5C7;  /* Your primary-action color */
+  letter-spacing: 1px;
+  margin-top: 0px;
+}
 
 /* Button */
 button {
@@ -150,6 +167,11 @@ button:active {transform: scale(1.05);}
 .close-btn:hover {color: #D95555; background: none;}
 
 /* Mobile optimization */
+@media (max-width: 560px){
+  .title-primary {font-size: 3rem;}
+  .title-secondary {font-size: 2.5rem;}
+}
+
 @media (max-width: 420px) {
   .player {
     flex-direction: column;
@@ -159,4 +181,6 @@ button:active {transform: scale(1.05);}
   .player label {
     width: 100%;
   }
+  .title-primary {font-size: 2.5rem;}
+  .title-secondary {font-size: 2rem;}
 }
