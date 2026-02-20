@@ -2,7 +2,7 @@
 
 >A fun social deduction game inspired by Among Us, using Clash Royale cards! One player is secretly the impostor while others receive the same card. Can you find the impostor?
 
-**🎮 [Play Now!](https://impostor-game-umber.vercel.app)**
+**🎮 <a href="https://impostor-game-umber.vercel.app/" target="_blank" rel="noopener noreferrer">Open link</a>**
 
 ![Game Preview](https://img.shields.io/badge/Status-Live-success)
 ![HTML](https://img.shields.io/badge/HTML-5-orange)
