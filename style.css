@@ -187,7 +187,6 @@ button:disabled {
   background-color: #2D1F1F;
   border-radius: 0.75rem;
   border: 1px solid #3D2A2A;
-  opacity: 0.5;
 }
 
 .impostor-checkbox label {
@@ -227,6 +226,9 @@ button:disabled {
   font-weight: bold;
 }
 .impostor-checkbox input[type="checkbox"]:hover {border-color: #A34848;}
+.impostor-checkbox[style="opacity: 0.5;"] label, .impostor-checkbox input:disabled {
+  cursor: not-allowed;
+}
 
 /* Footer */
 footer {
