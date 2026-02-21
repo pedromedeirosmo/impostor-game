@@ -137,6 +137,7 @@ const gameContainer = document.querySelector('#gameContainer');
 const addPlayerbtn = document.querySelector('#addPlayerbtn');
 const nextbtn = document.querySelector('#nextbtn');
 const errorMsg = document.querySelector('.error-message')
+const twoImpostorsCheckbox = document.querySelector('#twoImpostors')
 
 let morePlayers = document.querySelectorAll('.player').length + 1;
 
@@ -163,6 +164,11 @@ removebtn.addEventListener('click', () => {
         players[players.length - 1].remove();
         morePlayers--;
         attachRemoveToLastDiv();
+        if (players.length == 6) {
+            document.querySelector('.impostor-checkbox').style.opacity = '0.5'
+            twoImpostorsCheckbox.disabled = true;
+            twoImpostorsCheckbox.checked = false;
+        }
     }
 });
 
@@ -172,7 +178,7 @@ removebtn.addEventListener('click', () => {
 
 addPlayerbtn.addEventListener('click', () => {
     const players = document.querySelectorAll('.player');
-    if (players.length >= 10) return;
+    if (players.length >= 15) return;
 
     const div = document.createElement('div');
     div.classList.add('player');
@@ -191,6 +197,16 @@ addPlayerbtn.addEventListener('click', () => {
 
     morePlayers++;
     attachRemoveToLastDiv();
+
+    const updatedPlayers = document.querySelectorAll('.player');
+    if (updatedPlayers.length >= 6) {
+        document.querySelector('.impostor-checkbox').style.opacity = '1';
+        twoImpostorsCheckbox.disabled = false;
+    } else {
+        document.querySelector('.impostor-checkbox').style.opacity = '0.5';
+        twoImpostorsCheckbox.disabled = true;
+        twoImpostorsCheckbox.checked = false; 
+    }
 });
 
 /* =================================================
@@ -269,6 +285,14 @@ startbtn.addEventListener('click', () => {
         });
     });
 
+    if (inputs.length >= 6 && twoImpostorsCheckbox.checked === true) {
+        let secondImpostorIndex = Math.floor(Math.random() * inputs.length);
+        while (secondImpostorIndex === impostorIndex) {
+            secondImpostorIndex = Math.floor(Math.random() * inputs.length);
+        }
+        players[secondImpostorIndex].card = 'Impostor';
+    }
+    
     players[impostorIndex].card = 'Impostor';
 
     // Switch to game screen
@@ -335,8 +359,12 @@ startbtn.addEventListener('click', () => {
         else if (i === players.length + 1) {
             nextbtn.innerText = 'Restart';
             name.hidden = false;
-            name.innerText = `${players[impostorIndex].name} was the Impostor`;
             i++;
+            if (inputs.length >= 6 && twoImpostorsCheckbox.checked === true) {
+                name.innerText = `${players[players.findIndex(player => player.card == 'Impostor')].name} and ${players[players.findLastIndex(player => player.card == 'Impostor')].name} were the Impostors`
+            } else {
+                name.innerText = `${players[impostorIndex].name} was the Impostor`;
+            }
         }
         else {
             mainContainer.hidden = false;

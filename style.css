@@ -178,24 +178,6 @@ button:disabled {
 .close-btn:hover {color: #D95555; background: none;}
 
 /* Options */
-/* .option {
-  display: flex;
-  align-items: center;
-  border: 1px solid #D4C5C7;
-  border-radius: 8px;
-  background-color: #2D1F1F;
-  padding: 16px;
-  gap: 10px;
-  margin-bottom: 0.8rem;
-}
-.option input#twoImpostors {
-  width: 17.5px;
-  height: 17.5px;
-}
-.option p {
-  margin: 0; 
-  font-size: clamp(0.85rem, 3vw, 1rem);
-} */
 .impostor-checkbox {
   display: flex;
   align-items: center;
@@ -205,6 +187,7 @@ button:disabled {
   background-color: #2D1F1F;
   border-radius: 0.75rem;
   border: 1px solid #3D2A2A;
+  opacity: 0.5;
 }
 
 .impostor-checkbox label {
@@ -302,7 +285,7 @@ footer svg:hover {fill: #A34848;}
 @media (max-width: 340px) {
   .impostor-checkbox label {
     display: flex;
-    flex-direction: column;  /* ✅ Stack text vertically */
+    flex-direction: column;
     gap: 0.25rem;
   }
   .impostor-checkbox .min-players {font-size: 0.75rem;}
