@@ -90,7 +90,7 @@ button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
-
+#addPlayerbtn {margin-bottom: 0.8rem;}
 
 .error {
   border: 2px solid #C44545 !important;   /* Your danger red border */
@@ -133,7 +133,7 @@ button:disabled {
 
 /* Input */
 .player input {
-  background-color: #E8E3E4 !important;
+  background-color: #E8E3E4;
   color: #1A1314 ;
   flex: 1;
   padding: clamp(0.6rem, 2.5vw, 0.8rem);
@@ -231,7 +231,7 @@ button:disabled {
   font-size: 14px;
   font-weight: bold;
 }
-.impostor-checkbox input[type="checkbox"]:hover {border-color: #A34848;}
+.impostor-checkbox input[type="checkbox"]:hover {border-color: #D4C5C7;}
 .impostor-checkbox[style="opacity: 0.5;"] label, .impostor-checkbox input:disabled {
   cursor: not-allowed;
 }
@@ -268,7 +268,7 @@ footer svg {
   fill: #8B3A3A;
   transition: fill 0.2s;
 }
-footer svg:hover {fill: #A34848;}
+footer svg:hover {fill: #D4C5C7;}
 
 /* Mobile optimization */
 @media (max-width: 560px){
@@ -277,9 +277,7 @@ footer svg:hover {fill: #A34848;}
 }
 
 @media (max-width: 430px) {
-  .player label {
-    width: fit-content;
-  }
+  .player label {width: fit-content;}
   .title-primary {font-size: 2.5rem;}
   .title-secondary {font-size: 2rem;}
   .impostor-checkbox label {font-size: 0.95rem;}
