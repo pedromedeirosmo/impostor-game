@@ -236,6 +236,50 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* Language Option */
+/* Language Switcher */
+.language-switcher {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  background-color: #1A1314;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid #3D2A2A;
+}
+
+.lang-btn {
+  width: 45px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background-color: transparent;
+  color: #A8A0A1;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lang-btn:hover {
+  background-color: #2D1F1F;
+  color: #D4C5C7;
+}
+
+.lang-btn.active {
+  background-color: #8B3A3A;
+  color: #fff;
+}
+
+@media (max-width: 560px) {
+  .language-switcher {
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
 /* Footer */
 footer {
   width: 100%;

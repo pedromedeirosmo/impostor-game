@@ -139,8 +139,136 @@ const nextbtn = document.querySelector('#nextbtn');
 const errorMsg = document.querySelector('.error-message')
 const twoImpostorsCheckbox = document.querySelector('#twoImpostors')
 
-let morePlayers = document.querySelectorAll('.player').length + 1;
+/* =================================================
+   LANGUAGES OPTIONS
+================================================= */
 
+const englishBtn = document.querySelector('button[data-lang="en"]');
+const portugueseBtn = document.querySelector('button[data-lang="pt"]');
+const translations = {
+  en: {
+    // Buttons
+    addPlayer: "Add Player",
+    start: "Start",
+    next: "Next",
+    reveal: "Reveal",
+    showImpostor: "Show the impostor",
+    showImpostors: "Show the impostors",
+    restart: "Restart",
+    
+    // Labels
+    twoImpostors: "2 Impostors",
+    
+    // Error messages
+    errorEmpty: "Fill in the blank fields",
+    errorDuplicate: "Player names must be unique",
+    errorMinPlayers: "2 impostors require at least 7 players",
+    
+    // Game text
+    wasImpostor: "was the impostor",
+    wereImpostors: "were the impostors",
+    and: 'and',
+    
+    // Footer
+    madeBy: "Made by"
+  },
+  
+  pt: {
+    // Botões
+    addPlayer: "Adicionar Jogador",
+    start: "Iniciar",
+    next: "Próximo",
+    reveal: "Revelar",
+    showImpostor: "Mostrar o impostor",
+    showImpostors: "Mostrar os impostores",
+    restart: "Reiniciar",
+    
+    // Labels
+    twoImpostors: "2 Impostores",
+    
+    // Mensagens de erro
+    errorEmpty: "Preencha os campos vazios",
+    errorDuplicate: "Os nomes dos jogadores devem ser únicos",
+    
+    // Texto do jogo
+    wasImpostor: "era o Impostor",
+    wereImpostors: "eram os Impostores",
+    and: 'e',
+    
+    // Rodapé
+    madeBy: "Feito por"
+  }
+};
+let currentLanguage = 'en';
+
+let impostorNames = {
+    impostor1: '',
+    impostor2: ''
+}
+
+function updateLanguage(lang) {
+    const inputs = document.querySelectorAll('input').length;
+    document.documentElement.lang = lang;
+    addPlayerbtn.innerText = translations[lang].addPlayer;
+    startbtn.innerText = translations[lang].start;
+
+    document.querySelector('label[for="twoImpostors"]').innerHTML = `${translations[lang].twoImpostors} <span class="min-players">(min 6 players)</span>`;
+    if (document.querySelector('.error-message b').classList.value === 'empty') {
+        document.querySelector('b.empty').innerText = translations[lang].errorEmpty;
+    } else if (document.querySelector('.error-message b').classList.value === 'duplicate') {
+        document.querySelector('b.duplicate').innerText = translations[lang].errorDuplicate;
+    }
+
+    if (nextbtn.classList.value === 'restart') { 
+        nextbtn.innerText = translations[lang].restart;
+        if (inputs >= 6 && twoImpostorsCheckbox.checked === true) { 
+            document.querySelector('#gameContainer h2').innerText = `${impostorNames.impostor1} ${translations[lang].and} ${impostorNames.impostor2} ${translations[lang].wereImpostors}`;
+        } else {
+            document.querySelector("#gameContainer h2").innerText = `${impostorNames.impostor1} ${translations[lang].wasImpostor}`;
+        }
+    } else if (nextbtn.classList.value === 'showImpostor') {
+        if (inputs >= 6 && twoImpostorsCheckbox.checked === true) {
+            nextbtn.innerText = translations[lang].showImpostors;
+        } else { 
+            nextbtn.innerText = translations[lang].showImpostor;
+        }
+    } else {
+        nextbtn.innerText = translations[lang].next;
+    }
+    document.querySelector('.reveal').innerText = translations[lang].reveal;
+    document.querySelector('footer p').innerHTML = `${translations[lang].madeBy} <span style="font-family: Pixelify Sans, sans-serif;">Mederim</span>`;
+}
+
+englishBtn.addEventListener('click', () => {
+    englishBtn.classList.add('active');
+    portugueseBtn.classList.remove('active');
+    currentLanguage = 'en';
+    localStorage.setItem('language', 'en');
+    updateLanguage(currentLanguage);
+})
+
+portugueseBtn.addEventListener('click', () => {
+    portugueseBtn.classList.add('active');
+    englishBtn.classList.remove('active');
+    currentLanguage = 'pt';
+    localStorage.setItem('language', 'pt');
+    updateLanguage(currentLanguage);
+});
+
+// Load on page load
+(function() {
+    const savedLang = localStorage.getItem('language');
+    if (savedLang) {
+        currentLanguage = savedLang;
+        if (savedLang === 'pt') {
+            portugueseBtn.classList.add('active');
+            englishBtn.classList.remove('active');
+        }
+        updateLanguage(currentLanguage);
+    }
+})();
+
+let morePlayers = document.querySelectorAll('.player').length + 1;
 /* =================================================
    SINGLE REMOVE BUTTON (always on last player)
 ================================================= */
@@ -256,7 +384,9 @@ startbtn.addEventListener('click', () => {
     // Validate that all player names are filled
     const hasEmpty = checkForEmpty(inputs);
     if (hasEmpty) {
-        errorMsgTxt.innerText = 'Fill in the blank fields';
+        errorMsgTxt.innerText = translations[currentLanguage].errorEmpty;
+        errorMsgTxt.classList.remove('duplicate');
+        errorMsgTxt.classList.add('empty');
         errorMsg.classList.remove('hidden');
         return;
     }
@@ -264,7 +394,9 @@ startbtn.addEventListener('click', () => {
     // Check for duplicate names
     const hasDuplicate = checkForDuplicates(inputs);
     if (hasDuplicate) {
-        errorMsgTxt.innerText = 'Player names must be unique';
+        errorMsgTxt.innerText = translations[currentLanguage].errorDuplicate;
+        errorMsgTxt.classList.remove('empty');
+        errorMsgTxt.classList.add('duplicate');
         errorMsg.classList.remove('hidden');
         return;
     }
@@ -291,9 +423,12 @@ startbtn.addEventListener('click', () => {
             secondImpostorIndex = Math.floor(Math.random() * inputs.length);
         }
         players[secondImpostorIndex].card = 'Impostor';
+        impostorNames.impostor2 = players[secondImpostorIndex].name;
+        
     }
     
     players[impostorIndex].card = 'Impostor';
+    impostorNames.impostor1 = players[impostorIndex].name;
 
     // Switch to game screen
     mainContainer.hidden = true;
@@ -353,23 +488,31 @@ startbtn.addEventListener('click', () => {
             revealBtn.hidden = true;
             card.hidden = true;
             img.hidden = true;
-            nextbtn.innerText = 'Show the impostor';
-            i++;
-        }
-        else if (i === players.length + 1) {
-            nextbtn.innerText = 'Restart';
-            name.hidden = false;
+            nextbtn.classList.add('showImpostor');
             i++;
             if (inputs.length >= 6 && twoImpostorsCheckbox.checked === true) {
-                name.innerText = `${players[players.findIndex(player => player.card == 'Impostor')].name} and ${players[players.findLastIndex(player => player.card == 'Impostor')].name} were the Impostors`
+                nextbtn.innerText = translations[currentLanguage].showImpostors;
             } else {
-                name.innerText = `${players[impostorIndex].name} was the Impostor`;
+                nextbtn.innerText = translations[currentLanguage].showImpostor;
+            }
+        }
+        else if (i === players.length + 1) {
+            nextbtn.innerText = translations[currentLanguage].restart;
+            name.hidden = false;
+            nextbtn.classList.remove('showImpostor');
+            nextbtn.classList.add('restart');
+            i++;
+            if (inputs.length >= 6 && twoImpostorsCheckbox.checked === true) {
+                name.innerText = `${impostorNames.impostor1} ${translations[currentLanguage].and} ${impostorNames.impostor2} ${translations[currentLanguage].wereImpostors}`
+            } else {
+                name.innerText = `${players[impostorIndex].name} ${translations[currentLanguage].wasImpostor}`;
             }
         }
         else {
+            nextbtn.classList.remove('restart');
             mainContainer.hidden = false;
             gameContainer.hidden = true;
-            nextbtn.innerText = 'Next';
+            nextbtn.innerText = translations[currentLanguage].next;
             revealBtn.hidden = false;
             i = 0
         }
