@@ -5,6 +5,7 @@
 }
 
 /* Viewport layout */
+html {scroll-behavior: smooth;}
 body {
   min-height: 100vh;
   margin: 0;
@@ -41,12 +42,23 @@ main {
 @font-face {
   font-family: "You Blockhead";
   src: url("ClashRoyaleFont.ttf") format("truetype");
+  font-display: swap;
 }
 #gameContainer p {
-  font-family: 'You Blockhead', sans-serif;
+  font-family: 'You Blockhead', 'Impact', 'Arial Black', sans-serif;
   font-weight: bold;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);  
+  margin: 1.5rem 0;
+  word-break: break-word;
   margin-top: 0;
 }
+#gameContainer h2 {
+  font-size: clamp(1.5rem, 4vw, 2rem);  
+  margin: 1rem 0;
+  word-wrap: break-word; 
+}
+#gameContainer button {margin: 0.5rem auto;}
+#nextbtn {margin-bottom: 1.5rem;}
 
 /* Title */
 h2 {color: #D4C5C7;}
@@ -56,7 +68,7 @@ h2 {color: #D4C5C7;}
   margin: 1.5rem 0;
   line-height: 1.2;
 }
-.main-title span {font-family: 'You Blockhead', sans-serif;}
+.main-title span {font-family: 'You Blockhead', 'Impact', 'Arial Black', sans-serif;}
 .title-primary {
   display: block;
   font-size: 3.5rem;
@@ -81,6 +93,8 @@ button {
   font-size: clamp(0.95rem, 3.5vw, 1.1rem);
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
+  user-select: none; 
+  -webkit-tap-highlight-color: transparent;
 }
 button:not(:disabled):hover {background-color: #A34848;}
 button:not(:disabled):active {transform: scale(1.05);}
@@ -90,6 +104,13 @@ button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
+button:focus-visible,
+.lang-btn:focus-visible,
+input:focus-visible {
+  outline: 2px solid #C44545;
+  outline-offset: 2px;
+}
+
 #addPlayerbtn {margin-bottom: 0.8rem;}
 
 .error {
@@ -104,9 +125,13 @@ button:disabled {
   width: fit-content;
   margin: 0;
   padding: 0.8rem;
+  line-height: 0;
 }
 .remove:hover {background-color: #D95555;}
-.remove svg {width: 12.5px;}
+.remove svg {
+  width: clamp(12px, 2.5vw, 16px);  
+  height: auto;
+}
 
 .reveal {
   background-color: #2D1F1F; 
@@ -141,7 +166,7 @@ button:disabled {
   border: none;
   outline: none;
   font-size: 16px;
-  width: 100%;
+  min-width: 0;
 }
 .error-message {
   background-color: #2D1F1F;   
@@ -232,11 +257,9 @@ button:disabled {
   font-weight: bold;
 }
 .impostor-checkbox input[type="checkbox"]:hover {border-color: #D4C5C7;}
-.impostor-checkbox[style="opacity: 0.5;"] label, .impostor-checkbox input:disabled {
-  cursor: not-allowed;
-}
+.impostor-checkbox[style="opacity: 0.5;"] label, .impostor-checkbox input:disabled {cursor: not-allowed;}
+.impostor-checkbox input[type="checkbox"]:focus-visible {box-shadow: 0 0 0 3px rgba(196, 69, 69, 0.3);}
 
-/* Language Option */
 /* Language Switcher */
 .language-switcher {
   position: absolute;
@@ -248,6 +271,7 @@ button:disabled {
   padding: 0.25rem;
   border-radius: 0.5rem;
   border: 1px solid #3D2A2A;
+  z-index: 10;
 }
 
 .lang-btn {
@@ -266,18 +290,13 @@ button:disabled {
 .lang-btn:hover {
   background-color: #2D1F1F;
   color: #D4C5C7;
+  transform: translateY(-1px)
 }
 
 .lang-btn.active {
   background-color: #8B3A3A;
   color: #fff;
-}
-
-@media (max-width: 560px) {
-  .language-switcher {
-    top: 1rem;
-    right: 1rem;
-  }
+  transform: translateY(0);
 }
 
 /* Footer */
@@ -305,10 +324,11 @@ footer a {
   transition: transform 0.2s;
 }
 footer a:hover {transform: scale(1.1);}
+footer a:active {transform: scale(0.95);}
 
 footer svg {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: clamp(1.75rem, 4vw, 2.25rem);
+  height: clamp(1.75rem, 4vw, 2.25rem);
   fill: #8B3A3A;
   transition: fill 0.2s;
 }
@@ -318,6 +338,10 @@ footer svg:hover {fill: #D4C5C7;}
 @media (max-width: 560px){
   .title-primary {font-size: 3rem;}
   .title-secondary {font-size: 2.5rem;}
+  .language-switcher {
+    top: 1rem;
+    right: 1rem;
+  }
 }
 
 @media (max-width: 430px) {
@@ -327,13 +351,83 @@ footer svg:hover {fill: #D4C5C7;}
   .impostor-checkbox label {font-size: 0.95rem;}
   .impostor-checkbox .min-players {font-size: 0.8rem;}
   .remove {padding: 0.8rem 0.5rem;}
+  .language-switcher {
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.15rem;
+  }
+  .lang-btn {
+    width: 40px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  .impostor-checkbox {
+    padding: 0.6rem 0.8rem;
+  }
+  
+  .impostor-checkbox label {
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+}
+@media (max-width: 400px) {
+  .error-message {
+    gap: 0.25rem;  
+    padding: 0.75rem 1rem;  
+    font-size: 0.875rem;  
+  }
+  .error-message svg {
+    width: 1rem;  
+    height: 1rem;
+  }
+  .close-btn svg {
+    width: 0.875rem;  
+    height: 0.875rem;
+  }
 }
 @media (max-width: 340px) {
+  .container {padding: 1rem;}
+  body {padding: 1rem;}
+  .main-title {margin: 1rem 0 0.5rem;}
   .impostor-checkbox label {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
   }
   .impostor-checkbox .min-players {font-size: 0.75rem;}
-  .error-message {gap: 0;}
+  .language-switcher {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  .lang-btn {
+    width: 38px;
+    padding: 0.35rem 0.5rem;
+    font-size: 0.75rem;
+  }
+}
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .language-switcher,
+  footer {
+    display: none;
+  }
+  
+  button {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  button:active {transform: none;}
+  
+  footer a:hover {transform: none;}
 }

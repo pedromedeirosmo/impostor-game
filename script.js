@@ -162,7 +162,6 @@ const translations = {
     // Error messages
     errorEmpty: "Fill in the blank fields",
     errorDuplicate: "Player names must be unique",
-    errorMinPlayers: "2 impostors require at least 7 players",
     
     // Game text
     wasImpostor: "was the impostor",
@@ -191,8 +190,8 @@ const translations = {
     errorDuplicate: "Os nomes dos jogadores devem ser únicos",
     
     // Texto do jogo
-    wasImpostor: "era o Impostor",
-    wereImpostors: "eram os Impostores",
+    wasImpostor: "era o impostor",
+    wereImpostors: "eram os impostores",
     and: 'e',
     
     // Rodapé
