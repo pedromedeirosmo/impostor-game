@@ -24,6 +24,7 @@ main {
   align-items: center;
   justify-content: center;  
   width: 100%;
+  padding-top: 3rem;
 }
 
 /* Container */
@@ -405,6 +406,7 @@ footer svg:hover {fill: #D4C5C7;}
     font-size: 0.75rem;
   }
 }
+
 @media print {
   body {
     background: white;
